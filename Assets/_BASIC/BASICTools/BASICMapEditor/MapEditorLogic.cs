@@ -367,7 +367,11 @@ public class MapEditorLogic : BASICSingleton<MapEditorLogic>
                     currentRotation = rotation;
                 }
                 layerObject.GetChild(0).transform.eulerAngles = currentRotation;
-                lastRotation = currentRotation;
+
+                if (!aiProfile)
+                {
+                    lastRotation = currentRotation;
+                }
             }
         }
     }
