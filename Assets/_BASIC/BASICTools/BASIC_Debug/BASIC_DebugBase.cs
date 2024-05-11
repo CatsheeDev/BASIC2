@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BASIC_DebugBase : MonoBehaviour
+namespace BASIC.Debugging
 {
-    public virtual void RefreshList()
+    public class BASIC_DebugBase : MonoBehaviour
     {
-        Debug.Log("hey micheal vsauce here");
+        public virtual void RefreshList()
+        {
+            Debug.Log("hey micheal vsauce here");
+        }
     }
 }
