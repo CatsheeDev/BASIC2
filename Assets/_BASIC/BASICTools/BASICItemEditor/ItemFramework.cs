@@ -3,6 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public struct ItemInfo
 {
+    [HideInInspector]
     public int Value;
     public string Name;
     public string InGameName;

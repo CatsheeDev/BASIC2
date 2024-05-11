@@ -5,7 +5,7 @@ using UnityEngine;
 public class PickupScript : MonoBehaviour
 {
 	[SerializeField] private int itemIndex;
-	[SerializeField] private float pickupDistance = 10f; 
+	[SerializeField] private float pickupDistance = 15f; 
 	private void Start()
 	{
 		

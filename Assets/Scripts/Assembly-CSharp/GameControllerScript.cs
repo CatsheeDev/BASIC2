@@ -28,6 +28,22 @@ public class GameControllerScript : Singleton<GameControllerScript>
         this.itemSelect.anchoredPosition = this.itemSlot[itemSelected].GetComponent<RectTransform>().anchoredPosition;
         this.gameOverDelay = 0.5f;
 
+		if (settingsProfile == null)
+		{
+			settingsProfile = ScriptableObject.CreateInstance<BASICDecompProfile>();
+
+            Debug.LogError("BAISIC // GAMECONTROLLER // NO SETTINGS PROFILE");
+        }
+
+		if (itemProfile == null)
+		{
+			itemProfile = ScriptableObject.CreateInstance<ItemProfile2>();
+			Array.Resize(ref itemProfile.items, 1);
+			itemProfile.items[0].Value = 0;
+			itemProfile.items[0].Name = "Nothing";
+
+			Debug.LogError("BAISIC // GAMECONTROLLER // NO ITEM PROFILE");
+		}
 		this.debugMode = settingsProfile.DebugMode;
 		this.notebooks = settingsProfile.startingNotebooks;
 		this.failedNotebooks = settingsProfile.startingFailedNotebooks;
@@ -196,8 +212,13 @@ public class GameControllerScript : Singleton<GameControllerScript>
 		this.UpdateNotebookCount();
 	}
 
-	
-	public void LockMouse()
+    public void CollectNotebook(bool ye)
+    {
+        this.UpdateNotebookCount();
+    }
+
+
+    public void LockMouse()
 	{
 		if (!this.learningActive)
 		{
@@ -269,7 +290,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
 	}
 
 	
-	private void ActivateFinaleMode()
+	public void ActivateFinaleMode()
 	{
 		this.finaleMode = true;
 		this.entrance_0.Raise(); 

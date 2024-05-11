@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class CursorControllerScript : MonoBehaviour
 {
-	
-	private void Update()
-	{
-	}
+	public bool isLocked = true;
+	public bool basic_deb_ovv; 
 
-	
 	public void LockCursor()
 	{
 		Cursor.lockState = CursorLockMode.Locked; 
-		Cursor.visible = false;
-	}
+		Cursor.visible = false; 
+		isLocked = true;
+    }
 
-	
-	public void UnlockCursor()
-	{
-		Cursor.lockState = CursorLockMode.None; 
-		Cursor.visible = true;
-	}
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        isLocked = false;
+    }
+
+    public void toggleMouse()
+    {
+        if (isLocked)
+		{
+			UnlockCursor();
+		} else
+		{
+			LockCursor();
+		}
+    }
 }
