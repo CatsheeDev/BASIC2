@@ -64,7 +64,9 @@ public class PrincipalScript : MonoBehaviour
 		}
 		else
 		{
-			this.TargetPlayer(); 
+            if (player.GetComponent<CapsuleCollider>().enabled == false)
+                return;
+            this.TargetPlayer(); 
 		}
 	}
 
@@ -132,9 +134,9 @@ public class PrincipalScript : MonoBehaviour
 		{
 			this.inOffice = true;
 		}
-		if (other.tag == "Player" & this.angry & !this.inOffice)
+		if (other.tag == "Player" & this.angry & !this.inOffice & player.GetComponent<CapsuleCollider>().enabled == true)
 		{
-			this.inOffice = true;
+            this.inOffice = true;
 			this.playerScript.principalBugFixer = 0;
 			this.agent.Warp(new Vector3(10f, 0f, 170f)); 
 			this.agent.isStopped = true; 

@@ -83,7 +83,6 @@ namespace BASIC.Debugging
 
         public void toggleNoclip(TextMeshProUGUI tex)
         {
-            Debug.Log(GameControllerScript.Instance.player.GetComponent<CharacterController>().excludeLayers.ToString());
             if (GameControllerScript.Instance.player.GetComponent<CharacterController>().excludeLayers == Physics.AllLayers)
             {
                 GameControllerScript.Instance.player.GetComponent<CharacterController>().excludeLayers = 0;
@@ -107,6 +106,20 @@ namespace BASIC.Debugging
             else
             {
                 tex.text = "NPC ESP: false";
+            }
+        }
+
+        public void toggleGod(TextMeshProUGUI tex) //CPASULECOLLIDER VCUZ COLLIDER RETURNS CHARACTERCONTROLLER FOR SOME DREASON
+        {
+            if (GameControllerScript.Instance.playerTransform.GetComponent<CapsuleCollider>().enabled)
+            {
+                GameControllerScript.Instance.playerTransform.GetComponent<CapsuleCollider>().enabled = false; //god
+                tex.text = "God: true";
+            }
+            else
+            {
+                GameControllerScript.Instance.playerTransform.GetComponent<CapsuleCollider>().enabled = true; //not god
+                tex.text = "God: false";
             }
         }
     }

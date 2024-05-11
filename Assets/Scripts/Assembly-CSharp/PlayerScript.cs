@@ -148,7 +148,10 @@ public class PlayerScript : MonoBehaviour
 	
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.name == "Baldi" & !this.gc.debugMode)
+        if (GetComponent<CapsuleCollider>().enabled == false)
+            return;
+
+        if (other.transform.name == "Baldi")
 		{
 			this.gameOver = true;
 			RenderSettings.skybox = this.blackSky; 
@@ -177,6 +180,9 @@ public class PlayerScript : MonoBehaviour
 	
 	private void OnTriggerStay(Collider other)
 	{
+		if (GetComponent<CapsuleCollider>().enabled == false)
+			return; 
+
 		if (other.transform.name == "Gotta Sweep")
 		{
 			this.sweeping = true;
@@ -192,7 +198,10 @@ public class PlayerScript : MonoBehaviour
 	
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.transform.name == "Office Trigger")
+        if (GetComponent<CapsuleCollider>().enabled == false)
+            return;
+
+        if (other.transform.name == "Office Trigger")
 		{
 			this.ResetGuilt("escape", this.door.lockTime);
 		}
