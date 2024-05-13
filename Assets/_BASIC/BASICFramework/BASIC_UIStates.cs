@@ -25,7 +25,7 @@ namespace BASIC.UI.States
         {
             currentState.RenderUI();
             GUILayout.FlexibleSpace();
-            EditorGUILayout.LabelField("BASIC v2.1.0 (ur doing great! ur mod looks awesome!! :D)", EditorStyles.centeredGreyMiniLabel); 
+            EditorGUILayout.LabelField("BASIC v2.2.0 - Something", EditorStyles.centeredGreyMiniLabel); 
         }
     }
 

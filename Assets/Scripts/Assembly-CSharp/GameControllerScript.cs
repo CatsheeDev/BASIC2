@@ -607,6 +607,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
 
 	public BASICDecompProfile settingsProfile;
 
+
 	[Header("Not BASIC")]
 	public CursorControllerScript cursorController;
 
