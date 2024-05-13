@@ -393,7 +393,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
         int slotIndex = emptySlotIndex != -1 ? emptySlotIndex : this.itemSelected;
 
         this.item[slotIndex] = itemId;
-        this.itemSlot[slotIndex].texture = this.itemTextures[itemId];
+        this.itemSlot[slotIndex].texture = itemProfile.items[itemId].Icon;
 
 		InteractItem(itemProfile.items[itemId], false);
         this.UpdateItemName();
