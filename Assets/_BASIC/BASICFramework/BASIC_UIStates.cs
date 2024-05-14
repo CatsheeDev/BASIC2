@@ -25,7 +25,7 @@ namespace BASIC.UI.States
         {
             currentState.RenderUI();
             GUILayout.FlexibleSpace();
-            EditorGUILayout.LabelField("BASIC v2.2.0 - Something", EditorStyles.centeredGreyMiniLabel); 
+            EditorGUILayout.LabelField("BASIC v2.1.1 - ur doing great :D", EditorStyles.centeredGreyMiniLabel); 
         }
     }
 
