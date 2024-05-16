@@ -13,6 +13,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
 {
 	private GameObject itemHolder; 
 
+
 	private void Start()
 	{
 		this.cullingMask = this.camera.cullingMask; 

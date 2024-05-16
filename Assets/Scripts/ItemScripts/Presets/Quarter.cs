@@ -16,20 +16,20 @@ public class Quarter : ItemBase
         RaycastHit raycastHit3;
         if (Physics.Raycast(ray3, out raycastHit3))
         {
-            if (raycastHit3.collider.name == "BSODAMachine" & Vector3.Distance(GameControllerScript.Instance.playerTransform.position, raycastHit3.transform.position) <= 10f)
+            if (raycastHit3.collider.GetComponent<VendingMachine>() & Vector3.Distance(GameControllerScript.Instance.playerTransform.position, raycastHit3.transform.position) <= 10f)
             {
                 base.Use();
-                GameControllerScript.Instance.CollectItem(4);
-            }
-            else if (raycastHit3.collider.name == "ZestyMachine" & Vector3.Distance(GameControllerScript.Instance.playerTransform.position, raycastHit3.transform.position) <= 10f)
-            {
-                base.Use();
-                GameControllerScript.Instance.CollectItem(1);
-            }
-            else if (raycastHit3.collider.name == "PayPhone" & Vector3.Distance(GameControllerScript.Instance.playerTransform.position, raycastHit3.transform.position) <= 10f)
-            {
-                raycastHit3.collider.gameObject.GetComponent<TapePlayerScript>().Play();
-                base.Use();
+                foreach (int itemID in raycastHit3.collider.GetComponent<VendingMachine>().itemsCanVend)
+                {
+                    if (itemID == -1)
+                    {
+                        raycastHit3.collider.gameObject.GetComponent<TapePlayerScript>().Play();
+                        base.Use();
+                        continue; 
+                    }
+
+                    GameControllerScript.Instance.CollectItem(itemID);
+                }
             }
         }
     }
