@@ -8,6 +8,8 @@ public class BASICDecompProfile : ScriptableObject
     [Header("General Options")]
     public bool YCTP = true;
 
+    public bool baldicator; 
+
     [Header("Notebooks")]
     public int maxNotebooks = 7;
 

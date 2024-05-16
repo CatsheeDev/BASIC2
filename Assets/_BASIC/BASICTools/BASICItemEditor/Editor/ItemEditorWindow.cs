@@ -8,7 +8,7 @@ public class ItemEditorWindow : BASICEditorSingleton<ItemEditorWindow>
 {
     public BASIC_UIStates stateManager;
 
-    [MenuItem("BASIC/Item Editor")]
+    [MenuItem("BASIC/Tools/Item Editor")]
     public static void ShowWindow()
     {
         BASIC_UIBASE.createWindow<ItemEditorWindow>("Item Editor");

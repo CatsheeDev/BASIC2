@@ -8,7 +8,7 @@ public class DecompEditorWindow : BASICEditorSingleton<DecompEditorWindow>
 {
     public BASIC_UIStates stateManager;
 
-    [MenuItem("BASIC/Decomp Editor")]
+    [MenuItem("BASIC/Tools/Decomp Editor")]
     public static void ShowWindow()
     {
         BASIC_UIBASE.createWindow<DecompEditorWindow>("Decomp Editor");

@@ -4,8 +4,8 @@ namespace BasicAPI
 {
     public static class Events
     {
-        public static UnityEvent OnNotebookCollect = new UnityEvent();
+        public static UnityEvent OnNotebookCollect = new();
 
-        public static UnityEvent OnMathGameEnd = new UnityEvent();
+        public static UnityEvent OnMathGameEnd = new();
     }
 }

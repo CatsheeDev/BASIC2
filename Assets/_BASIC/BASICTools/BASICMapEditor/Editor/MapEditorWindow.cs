@@ -8,7 +8,7 @@ public class MapEditorWindow : BASICEditorSingleton<MapEditorWindow>
 {
     public BASIC_UIStates stateManager;
 
-    [MenuItem("BASIC/Map Editor")]
+    [MenuItem("BASIC/Tools/Map Editor")]
     public static void ShowWindow()
     {
         BASIC_UIBASE.createWindow<MapEditorWindow>("Map Editor");

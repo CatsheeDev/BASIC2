@@ -21,20 +21,25 @@ public class BASICHome_Window : MonoBehaviour
 
         GameObject newGO = new GameObject("TEMP_verCheck");
         Instance = newGO.AddComponent<BASICHome_Window>();
-
-        Debug.Log("init ver check");
-        Instance.CheckVersion();
+        
+        if (EditorPrefs.GetBool("BASIC_showUpdate"))
+        {
+            Instance.CheckVersion();  
+        } else
+        {
+            DestroyImmediate(Instance.gameObject);
+        }
     }
 
     private void CheckVersion()
     {
-        string remoteVersionUrl = "https://raw.githubusercontent.com/yourusername/yourrepository/master/version.txt";
-        string localVersionPath = "path/to/your/local/version.txt";
+        string remoteVersionUrl = "https://raw.githubusercontent.com/CatsheeDev/BASIC2/master/version.txt";
+        string localVersionPath = "version.txt";
 
         StartCoroutine(CheckRemoteVersion(remoteVersionUrl, localVersionPath));
     }
 
-    private static IEnumerator CheckRemoteVersion(string remoteVersionUrl, string localVersionPath)
+    private IEnumerator CheckRemoteVersion(string remoteVersionUrl, string localVersionPath)
     {
         using (UnityWebRequest www = UnityWebRequest.Get(remoteVersionUrl))
         {
@@ -42,24 +47,22 @@ public class BASICHome_Window : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError("Failed to find Version" + www.error);
+                Debug.LogError("Failed to find cur version" + www.error);
             }
             else
             {
                 string remoteVersion = www.downloadHandler.text;
                 string localVersion = File.ReadAllText(localVersionPath);
 
-                if (remoteVersion == localVersion)
+                if (remoteVersion != localVersion)
                 {
-                    Debug.Log("");
-                }
-                else
-                {
-                    Debug.Log("Versions do not match???? fuck???");
                     BASIC_UIBASE.createWindow<BASICHome_ActuallyWindow>("BASIC Home");
+
+                    BASICHome_ActuallyWindow.Instance.stateManager.SetState(new BASICHome_EditorWindow_Update()); 
                 }
+
             }
-        }
+        } 
 
         DestroyImmediate(Instance.gameObject); 
     }

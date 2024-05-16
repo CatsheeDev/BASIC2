@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class BaldiScript : MonoBehaviour
 {
-	
-	private void Start()
+	[SerializeField] private Animator baldicator; 
+
+
+    private void Start()
 	{
 		this.baldiAudio = base.GetComponent<AudioSource>(); 
 		this.agent = base.GetComponent<NavMeshAgent>(); 
@@ -151,11 +153,22 @@ public class BaldiScript : MonoBehaviour
 		if (!this.antiHearing && priority >= this.currentPriority) 
 		{
 			this.agent.SetDestination(soundLocation); 
-			this.currentPriority = priority; 
-		}
+			this.currentPriority = priority;
+
+            playBaldicator("Baldicator_Look");
+        } else
+		{
+            playBaldicator("Baldicator_Think");
+        }
 	}
 
-	
+	public void playBaldicator(string name)
+	{
+		if (GameControllerScript.Instance.settingsProfile.baldicator)
+		{
+            baldicator.Play(name, -1, 0f);
+        }
+    }
 	public void ActivateAntiHearing(float t)
 	{
 		this.Wander(); 
