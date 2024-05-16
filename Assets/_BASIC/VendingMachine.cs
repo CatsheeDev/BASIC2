@@ -18,7 +18,6 @@ public class VendingMachineEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
 
         Rect rect = GUILayoutUtility.GetLastRect();
         Vector2 tooltipPosition = new Vector2(rect.xMax + 10, rect.y);
@@ -27,5 +26,7 @@ public class VendingMachineEditor : Editor
         {
             EditorGUILayout.HelpBox("-1 = payphone", MessageType.Info);
         }
+
+        DrawDefaultInspector();
     }
 }
