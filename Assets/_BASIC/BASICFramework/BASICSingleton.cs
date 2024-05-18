@@ -33,9 +33,8 @@ public class BASICSingleton<T> : MonoBehaviour where T : MonoBehaviour
         }
         else
         {
-            _instance = this as T;
             if (Application.isPlaying)
-                DontDestroyOnLoad(this.gameObject); 
+                Destroy(this.gameObject);
         }
     }
 

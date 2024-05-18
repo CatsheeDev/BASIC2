@@ -30,19 +30,23 @@ public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
 
         currSearchParams = (toolboxTypeParams)EditorGUILayout.Popup("Search Type", selectedIndex, searchTypeStrings);
 
-        foreach (dynamic package in BASICToolbox_PackageDatabase.Instance.packageInfos)
+        foreach (BASICPackage package in BASICToolbox_PackageDatabase.Instance.packageInfos.Select(v => (BASICPackage)v))
         {
-            if (package["packageType"] == currSearchParams.ToString() || currSearchParams == toolboxTypeParams.All)
+            if (package.packageType == currSearchParams.ToString() || currSearchParams == toolboxTypeParams.All)
             {
                 EditorGUILayout.BeginVertical("box");
                 GUILayout.Label(
-                    $"Name: {package["packageName"]} \nBASIC Version: {package["verCreated"]} \nType: {package["packageType"]}"
+                    $"Name: {package.packageName} \nBASIC Version: {package.verCreated} \nType: {package.packageType}"
                 );
-                GUILayout.Button("Import");
+                if (GUILayout.Button("Import"))
+                {
+                    //AssetDatabase.ImportPackage(packagePath, true);
+                }
                 EditorGUILayout.EndVertical();
-            } else
+            }
+            else
             {
-                continue; 
+                continue;
             }
         }
     }

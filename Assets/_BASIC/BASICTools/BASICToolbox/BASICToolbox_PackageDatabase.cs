@@ -7,21 +7,27 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using UnityEditor;
+using UnityEditor.PackageManager;
+
+public class BASICPackage
+{
+    public string packageName { get; set; }
+    public string verCreated { get; set; }
+    public string packageType { get; set; }
+}
+
 
 public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageDatabase>
 {
-    public dynamic[] packageInfos = new dynamic[0];
+    public List<dynamic> packageInfos = new();
 
     public void downloadAllPackages()
     {
-        StartCoroutine(DownloadZIP("https://github.com/CatsheeDev/BASIC2-Packages/archive/main.zip"));
+        StartCoroutine(DownloadPackages("https://raw.githubusercontent.com/CatsheeDev/BASIC2-Packages/main/packageList.json"));
     }
 
-    private IEnumerator DownloadZIP(string url)
+    private IEnumerator DownloadPackages(string url)
     {
-        string tempPath = Path.Combine(Application.temporaryCachePath, "temp_zip.zip");
-        string finalPath = getBASICPath();
-
         using UnityWebRequest www = UnityWebRequest.Get(url);
         yield return www.SendWebRequest();
 
@@ -31,60 +37,26 @@ public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageD
         }
         else
         {
-            byte[] bytes = www.downloadHandler.data;
-            File.WriteAllBytes(tempPath, bytes);
-
-            if (File.Exists(finalPath))
-            {
-                File.Delete(finalPath);
-            }
-
-            string finalDirectory = Path.GetDirectoryName(finalPath);
-            if (!Directory.Exists(finalDirectory))
-            {
-                Directory.CreateDirectory(finalDirectory);
-            }
-
-            File.Move(tempPath, finalPath);
-            extractPackages();
+            extractPackages(www.downloadHandler.text);
             AssetDatabase.Refresh();
         }
     }
 
-    private void extractPackages()
+    private void extractPackages(string packages)
     {
-        string extractedPath = Path.Combine(Application.dataPath, "_BASIC/Temp/Packages/Extracted");
-        try
-        {
-            Directory.Delete(extractedPath, true); 
-        }
-        catch (IOException ex)
-        {
-            Console.WriteLine($"error deleting directory: {ex.Message}");
-        }
-        System.IO.Compression.ZipFile.ExtractToDirectory(getBASICPath(), extractedPath);
-        ExtractInfoJsonFiles(extractedPath);
+        ExtractInfoJsonFiles(packages);
     }
 
-    private void ExtractInfoJsonFiles(string rootFolderPath)
+    private void ExtractInfoJsonFiles(string packages)
     {
-        Array.Resize(ref packageInfos, 0);
-
-        foreach (var directory in Directory.GetDirectories(rootFolderPath))
+        packageInfos.Clear();
+        List<BASICPackage> dPkg = JsonConvert.DeserializeObject<List<BASICPackage>>(packages);
+        foreach (var packageInfo in dPkg)
         {
-            var jsonFiles = new List<string>();
-            SearchForJsonFiles(directory, "*.json", jsonFiles);
-
-            foreach (var filePath in jsonFiles)
-            {
-                string jsonContent = File.ReadAllText(filePath);
-                dynamic packageInfo = JsonConvert.DeserializeObject(jsonContent);
-
-                Array.Resize(ref packageInfos, packageInfos.Length + 1);
-                packageInfos[^1] = packageInfo;
-            }
+            packageInfos.Add(packageInfo);
         }
     }
+
 
     private void SearchForJsonFiles(string directoryPath, string searchPattern, List<string> result)
     {
