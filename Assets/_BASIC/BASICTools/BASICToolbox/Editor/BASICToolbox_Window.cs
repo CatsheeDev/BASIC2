@@ -1,7 +1,11 @@
 #if UNITY_EDITOR
 using BASIC.UI;
 using BASIC.UI.States;
-using UnityEditor; 
+using System.Collections.Generic;
+using UnityEditor;
+using Newtonsoft.Json;
+using System.IO;
+using UnityEngine;
 
 namespace BASIC.Toolbox.UI
 {
@@ -17,9 +21,27 @@ namespace BASIC.Toolbox.UI
 
         private void OnEnable()
         {
-            stateManager = new BASIC_UIStates(new BASICTOOLBOX_WINDOWSTATES_MAIN());
+            BASICTOOLBOX_WINDOWSTATES_MAIN newWindow = new();
+
+            stateManager = new BASIC_UIStates(newWindow);
+            if (EditorPrefs.GetString("BASIC_Packages") != string.Empty)
+            {
+                fillCache(EditorPrefs.GetString("BASIC_Packages"), newWindow);
+            }
         }
 
+        void fillCache(string newJson, BASICTOOLBOX_WINDOWSTATES_MAIN window)
+        {
+            window.cachePackageInfos.Clear();
+            List<BASICPackage> dPkg = JsonConvert.DeserializeObject<List<BASICPackage>>(newJson);
+            foreach (var packageInfo in dPkg)
+            {
+                window.cachePackageInfos.Add(packageInfo);
+            }
+
+            string packagesPath = Path.Combine(Application.dataPath, "packages.json");
+            window.packageDatabase = JsonConvert.DeserializeObject<BASICToolbox_PackageDatabase.RootObject>(File.ReadAllText(packagesPath));
+        }
         private void OnGUI()
         {
             stateManager.RenderCurrentState();

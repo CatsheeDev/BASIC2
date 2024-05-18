@@ -2,24 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using UnityEditor;
-using UnityEditor.PackageManager;
 
 public class BASICPackage
 {
     public string packageName { get; set; }
     public string verCreated { get; set; }
     public string packageType { get; set; }
+    public string packagePath { get; set; }
 }
-
 
 public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageDatabase>
 {
-    public List<dynamic> packageInfos = new();
+    public List<BASICPackage> packageInfos = new List<BASICPackage>();
+
+    public TextAsset jsonAsset;
 
     public void downloadAllPackages()
     {
@@ -37,17 +37,12 @@ public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageD
         }
         else
         {
+            EditorPrefs.SetString("BASIC_Packages", www.downloadHandler.text);
             extractPackages(www.downloadHandler.text);
-            AssetDatabase.Refresh();
         }
     }
 
     private void extractPackages(string packages)
-    {
-        ExtractInfoJsonFiles(packages);
-    }
-
-    private void ExtractInfoJsonFiles(string packages)
     {
         packageInfos.Clear();
         List<BASICPackage> dPkg = JsonConvert.DeserializeObject<List<BASICPackage>>(packages);
@@ -57,28 +52,55 @@ public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageD
         }
     }
 
-
-    private void SearchForJsonFiles(string directoryPath, string searchPattern, List<string> result)
+    public void DownloadAndInstallPackage(string packageURL, BASICPackage ba)
     {
-        if (Path.GetFileName(directoryPath) == "info.json")
-        {
-            result.Add(directoryPath);
-        }
+        StartCoroutine(DownloadPackage(packageURL, ba));
+    }
 
-        foreach (var subdirectory in Directory.GetDirectories(directoryPath))
+    private IEnumerator DownloadPackage(string packageURL, BASICPackage ba)
+    {
+        using UnityWebRequest www = UnityWebRequest.Get(packageURL);
         {
-            SearchForJsonFiles(subdirectory, searchPattern, result);
-        }
+            yield return www.SendWebRequest();
 
-        foreach (var fileName in Directory.GetFiles(directoryPath, searchPattern))
-        {
-            result.Add(fileName);
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError(www.error);
+            }
+            else
+            {
+                string packagePath = Path.Combine(Application.dataPath, "_BASIC/Temp", Path.GetFileName(packageURL));
+
+                Directory.CreateDirectory(Path.GetDirectoryName(packagePath));
+                File.WriteAllBytes(packagePath, www.downloadHandler.data);
+
+                if (File.Exists(packagePath))
+                {
+                    AssetDatabase.ImportPackage(packagePath, true);
+                    ImportPackageFromLocalFile(ba);
+                    Debug.Log($"Imported {ba.packageName} successfully");
+                }
+                else
+                {
+                    Debug.LogError("Package file not found after download.");
+                }
+            }
         }
     }
 
-
-    private string getBASICPath()
+    private void ImportPackageFromLocalFile(BASICPackage pack)
     {
-        return Path.Combine(Application.dataPath, "_BASIC/Temp/Packages", "packages.zip");
+        string packagesPath = Path.Combine(Application.dataPath, "packages.json");
+        RootObject packageDatabase = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(packagesPath));
+        packageDatabase.packages.Add(pack.packageName);
+
+        string modifiedJsonContent = JsonConvert.SerializeObject(packageDatabase);
+        File.WriteAllText(packagesPath, modifiedJsonContent);
+        Debug.Log("Package imported successfully.");
+    }
+
+    public class RootObject
+    {
+        public List<string> packages { get; set; }
     }
 }

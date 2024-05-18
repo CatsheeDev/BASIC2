@@ -1,11 +1,15 @@
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class VendingMachine : MonoBehaviour
 {
     public int[] itemsCanVend;
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(VendingMachine))]
 public class VendingMachineEditor : Editor
 {
@@ -15,7 +19,6 @@ public class VendingMachineEditor : Editor
     {
         itemsCanVend = serializedObject.FindProperty("itemsCanVend");
     }
-
     public override void OnInspectorGUI()
     {
 
@@ -29,4 +32,5 @@ public class VendingMachineEditor : Editor
 
         DrawDefaultInspector();
     }
+#endif
 }
