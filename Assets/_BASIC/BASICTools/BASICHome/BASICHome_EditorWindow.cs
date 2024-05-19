@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using BASIC.UI.States;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,3 +28,5 @@ public class BASICHome_EditorWindow_Update : IUIState
         EditorPrefs.SetBool("BASIC_showUpdate", EditorGUILayout.Toggle("Notify About Update?", EditorPrefs.GetBool("BASIC_showUpdate")));
     }
 }
+
+#endif

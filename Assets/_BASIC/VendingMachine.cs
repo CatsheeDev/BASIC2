@@ -32,5 +32,5 @@ public class VendingMachineEditor : Editor
 
         DrawDefaultInspector();
     }
-#endif
 }
+#endif

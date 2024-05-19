@@ -1,7 +1,8 @@
+#if UNITY_EDITOR
 using BASIC.UI;
+using BASIC.UI.Home;
 using System.Collections;
 using System.IO;
-using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -67,3 +68,4 @@ public class BASICHome_Window : MonoBehaviour
         DestroyImmediate(Instance.gameObject); 
     }
 }
+#endif

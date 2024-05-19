@@ -50,13 +50,13 @@ public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
                         $"Name: {package.packageName} \nBASIC Version: {package.verCreated} \nType: {package.packageType}"
                     );
 
-                    if (packageDatabase.packages.Contains(package.packageName) == true)
-                        GUILayout.Label("Imported", EditorStyles.boldLabel);
+/*                    if (packageDatabase.packages.Contains(package.packageName) == true)
+                        GUILayout.Label("Imported", EditorStyles.boldLabel);*/
 
                     if (package.packagePath == null)
                         EditorGUILayout.HelpBox("Package doesn't contain a .unitypackage", MessageType.Error);
 
-                    if ((package.packagePath != null && packageDatabase.packages.Contains(package.packageName) == false) && GUILayout.Button("Import"))
+                    if (package.packagePath != null && GUILayout.Button("Import"))
                     {
                         BASICToolbox_PackageDatabase.Instance.DownloadAndInstallPackage(package.packagePath, package);
                     }
