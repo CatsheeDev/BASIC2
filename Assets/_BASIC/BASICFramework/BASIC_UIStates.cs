@@ -10,10 +10,12 @@ namespace BASIC.UI.States
     public class BASIC_UIStates
     {
         private IUIState currentState;
+        private string motive; 
 
         public BASIC_UIStates(IUIState initialState)
         {
             currentState = initialState;
+            motive = motivationalPhrases[UnityEngine.Random.Range(0, motivationalPhrases.Length)]; 
         }
 
         public void SetState(IUIState newState)
@@ -25,11 +27,18 @@ namespace BASIC.UI.States
         {
             currentState.RenderUI();
             GUILayout.FlexibleSpace();
-            EditorGUILayout.LabelField("BASIC v2.1.1 - ur doing great :D", EditorStyles.centeredGreyMiniLabel); 
+            EditorGUILayout.LabelField($"BASIC v2.2.0 - {motive}", EditorStyles.centeredGreyMiniLabel); 
         }
+
+        private string[] motivationalPhrases =
+        {
+            "ur doing great :D", 
+            "that looks awesome!!",
+            "wow! you exist!",
+            "ur making peak"
+        };
+
     }
-
-
 
     public interface IUIState
     {
