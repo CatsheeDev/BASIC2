@@ -10,7 +10,8 @@ public enum toolboxTypeParams
 {
     All,
     Scene, 
-    Item
+    Item, 
+    Optimization
 }
 
 public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
@@ -21,7 +22,7 @@ public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
     private Vector2 scrollInt;
     private string searchParams = "Search Packages..."; 
 
-    public List<dynamic> cachePackageInfos = new();
+    public List<BASICPackage> cachePackageInfos = new();
 
     public BASICToolbox_PackageDatabase.RootObject packageDatabase { get; internal set; }
 
@@ -29,7 +30,7 @@ public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
     {
         if (GUILayout.Button("Refresh Toolbox"))
         {
-            BASICToolbox_PackageDatabase.Instance.downloadAllPackages();
+            cachePackageInfos = BASICToolbox_PackageDatabase.Instance.downloadAllPackages();
         }
 
         string[] searchTypeStrings = Enum.GetNames(typeof(toolboxTypeParams));

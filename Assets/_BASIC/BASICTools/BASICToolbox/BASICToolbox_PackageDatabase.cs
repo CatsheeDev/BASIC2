@@ -22,9 +22,11 @@ public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageD
 
     public TextAsset jsonAsset;
 
-    public void downloadAllPackages()
+    public List<BASICPackage> downloadAllPackages()
     {
         StartCoroutine(DownloadPackages("https://raw.githubusercontent.com/CatsheeDev/BASIC2-Packages/main/packageList.json"));
+
+        return packageInfos; 
     }
 
     private IEnumerator DownloadPackages(string url)
