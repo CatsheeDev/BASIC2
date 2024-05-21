@@ -16,8 +16,6 @@ public enum toolboxTypeParams
 
 public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
 {
-    private dynamic[] jsones = new dynamic[0];
-
     private toolboxTypeParams currSearchParams;
     private Vector2 scrollInt;
     private string searchParams = "Search Packages..."; 
