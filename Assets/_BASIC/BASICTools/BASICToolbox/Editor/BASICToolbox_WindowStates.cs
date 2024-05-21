@@ -40,6 +40,7 @@ public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
 
         currSearchParams = (toolboxTypeParams)EditorGUILayout.Popup("Search Type", selectedIndex, searchTypeStrings);
 
+        scrollInt = EditorGUILayout.BeginScrollView(scrollInt);
         foreach (BASICPackage package in cachePackageInfos.Select(v => (BASICPackage)v))
         {
             if (package.packageType == currSearchParams.ToString() || currSearchParams == toolboxTypeParams.All)
@@ -48,7 +49,7 @@ public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
                 {
                     EditorGUILayout.BeginVertical("box");
                     GUILayout.Label(
-                        $"Name: {package.packageName} \nBASIC Version: {package.verCreated} \nType: {package.packageType}"
+                        $"Name: {package.packageName} \nBASIC Version: {package.verCreated} \nType: {package.packageType} \nDescription: {package.packageInfo}"
                     );
 
 /*                    if (packageDatabase.packages.Contains(package.packageName) == true)
@@ -72,6 +73,7 @@ public class BASICTOOLBOX_WINDOWSTATES_MAIN : IUIState
                 continue;
             }
         }
+        EditorGUILayout.EndScrollView();
     }
 
 }

@@ -14,6 +14,7 @@ public class BASICPackage
     public string verCreated { get; set; }
     public string packageType { get; set; }
     public string packagePath { get; set; }
+    public string packageInfo { get; set; }
 }
 
 public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageDatabase>
