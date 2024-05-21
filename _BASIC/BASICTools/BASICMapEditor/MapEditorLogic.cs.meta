@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 9a04b03132862624ea86f2ccbf7a52e3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - emptyTilePrefab: {fileID: 5530498333977981557, guid: 3368aa72a70f8674893369fc3c069178,
+      type: 3}
+  - emptyTileText: {fileID: 2100000, guid: 1707669838cc3b84f825665e679b89f1, type: 2}
+  - aiTile: {instanceID: 0}
+  - newTileTag: {fileID: 11400000, guid: bb5c55f5d8beea94ca407b0a0bcfcb94, type: 2}
+  - aiTag: {fileID: 11400000, guid: fbf37e1d0fd8e8941a0b8a3943c26cb1, type: 2}
+  - currentObjectProfile: {instanceID: 0}
+  - currentlySelectedTile: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
