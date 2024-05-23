@@ -19,7 +19,16 @@ namespace BASIC.UI
             return typedWindow;
         }
 
-        
+        public static EditorWindow createToolboxWindow<T>(string windowName) where T : EditorWindow
+        {
+            EditorWindow window = EditorWindow.GetWindow(typeof(T), false, windowName);
+            window.minSize = new Vector2(400, 500);
+
+            T typedWindow = window as T;
+
+            return typedWindow;
+        }
+
         public static void VerticalBox(params System.Action[] actions)
         {
             EditorGUILayout.BeginVertical();

@@ -16,7 +16,7 @@ namespace BASIC.Toolbox.UI
         [MenuItem("BASIC/Tools/Toolbox")] 
         private static void showWindow()
         {
-            BASIC_UIBASE.createWindow<BASICToolbox_Window>("Toolbox");
+            BASIC_UIBASE.createToolboxWindow<BASICToolbox_Window>("Toolbox");
         }
 
         private void OnEnable()
