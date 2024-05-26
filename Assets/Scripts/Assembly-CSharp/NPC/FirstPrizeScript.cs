@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class FirstPrizeScript : MonoBehaviour
+public class FirstPrizeScript : BASICNPC
 {
 	
 	private void Start()

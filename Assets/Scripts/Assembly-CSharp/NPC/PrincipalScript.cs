@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class PrincipalScript : MonoBehaviour
+public class PrincipalScript : BASICNPC
 {
 	
 	private void Start()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BASICInteractable : MonoBehaviour
 {
-    [SerializeField] private float interactDistance;
+    [SerializeField] private float interactDistance = 10;
 
     /// <returns>Returns true if player has clicked, timeScale is not 0, the raycast to object has hit and is within interactDistance</returns>
     protected bool Interacted()

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class SweepScript : MonoBehaviour
+public class SweepScript : BASICNPC
 {
 	
 	private void Start()

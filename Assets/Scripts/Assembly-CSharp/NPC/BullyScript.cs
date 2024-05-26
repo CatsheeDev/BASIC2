@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class BullyScript : MonoBehaviour
+public class BullyScript : BASICNPC
 {
 	
 	private void Start()

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class PlaytimeScript : MonoBehaviour
+public class PlaytimeScript : BASICNPC
 {
 	
 	private void Start()

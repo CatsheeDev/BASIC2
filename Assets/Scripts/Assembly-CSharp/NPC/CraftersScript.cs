@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class CraftersScript : MonoBehaviour
+public class CraftersScript : BASICNPC
 {
 	
 	private void Start()
