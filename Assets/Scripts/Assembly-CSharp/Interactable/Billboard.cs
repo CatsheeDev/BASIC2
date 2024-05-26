@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-
+//OPTIMIZED BILLBOARD PACKAGE IS AVAILABLE, PLEASE USE THAT INSTEAD OF DIRECTLY EDITING THIS
 public class Billboard : MonoBehaviour
 {
 	

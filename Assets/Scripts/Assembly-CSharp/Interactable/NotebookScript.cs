@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class NotebookScript : MonoBehaviour
+public class NotebookScript : BASICInteractable
 {
 	
 	private void Start()
@@ -30,34 +30,28 @@ public class NotebookScript : MonoBehaviour
 				this.audioDevice.Play();
 			}
 		}
-		if (Input.GetMouseButtonDown(0) && Time.timeScale != 0f)
-		{
-			Ray ray = Camera.main.ScreenPointToRay(new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f));
-			RaycastHit raycastHit;
-			if (Physics.Raycast(ray, out raycastHit) && (raycastHit.transform.tag == "Notebook" & Vector3.Distance(this.player.position, base.transform.position) < this.openingDistance))
-			{
-				base.transform.position = new Vector3(base.transform.position.x, -20f, base.transform.position.z);
-				this.up = false;
-				this.respawnTime = 120f;
-				this.gc.CollectNotebook();
-				BasicAPI.Events.OnNotebookCollect.Invoke(); 
+		if (base.Interacted()) {
+			base.transform.position = new Vector3(base.transform.position.x, -20f, base.transform.position.z);
+			this.up = false;
+			this.respawnTime = 120f;
+			this.gc.CollectNotebook();
+			BasicAPI.Events.OnNotebookCollect.Invoke(); 
 
-                if (!GameControllerScript.Instance.settingsProfile.YCTP)
-                {
-                    if (!this.gc.spoopMode && gc.notebooks == 2)
-                        this.gc.ActivateSpoopMode();
+            if (!GameControllerScript.Instance.settingsProfile.YCTP)
+            {
+				if (!this.gc.spoopMode && gc.notebooks == 2)
+                    this.gc.ActivateSpoopMode();
 
                     if (this.gc.mode == "story" && gc.notebooks != 1)
                         gc.baldiScrpt.GetAngry(1f);
 
                     return;
-                }
+			}
 
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.learningGame);
                 gameObject.GetComponent<MathGameScript>().gc = this.gc;
                 gameObject.GetComponent<MathGameScript>().baldiScript = this.bsc;
                 gameObject.GetComponent<MathGameScript>().playerPosition = this.player.position;
-			}
 		}
 	}
 

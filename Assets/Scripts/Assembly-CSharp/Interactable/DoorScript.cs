@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class DoorScript : MonoBehaviour
+public class DoorScript : BASICInteractable
 {
 	
 	private void Start()
@@ -41,21 +41,17 @@ public class DoorScript : MonoBehaviour
 				this.myAudio.PlayOneShot(this.doorClose, 1f); 
 			}
 		}
-		if (Input.GetMouseButtonDown(0) && Time.timeScale != 0f) 
+
+		if (base.Interacted()) 
 		{
-			Ray ray = Camera.main.ScreenPointToRay(new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f));
-			RaycastHit raycastHit;
-			if (Physics.Raycast(ray, out raycastHit) && (raycastHit.collider == this.trigger & Vector3.Distance(this.player.position, base.transform.position) < this.openingDistance & !this.bDoorLocked))
+			if (this.baldi.isActiveAndEnabled & this.silentOpens <= 0)
 			{
-				if (this.baldi.isActiveAndEnabled & this.silentOpens <= 0)
-				{
-					this.baldi.Hear(base.transform.position, 1f); 
-				}
-				this.OpenDoor();
-				if (this.silentOpens > 0) 
-				{
-					this.silentOpens--; 
-				}
+				this.baldi.Hear(base.transform.position, 1f); 
+			}
+			this.OpenDoor();
+			if (this.silentOpens > 0) 
+			{
+				this.silentOpens--; 
 			}
 		}
 	}

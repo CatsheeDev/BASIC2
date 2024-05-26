@@ -2,29 +2,24 @@
 using UnityEngine;
 
 
-public class EndlessNotebookScript : MonoBehaviour
+public class EndlessNotebookScript : BASICInteractable
 {
 	
 	private void Start()
 	{
-		this.gc = GameObject.Find("Game Controller").GetComponent<GameControllerScript>(); 
-		this.player = GameObject.Find("Player").GetComponent<Transform>(); 
+		this.gc = GameControllerScript.Instance;
+		this.player = gc.playerTransform;
 	}
 
 	
 	private void Update()
 	{
-		if (Input.GetMouseButtonDown(0)) 
-		{
-			Ray ray = Camera.main.ScreenPointToRay(new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f));
-			RaycastHit raycastHit;
-			if (Physics.Raycast(ray, out raycastHit) && (raycastHit.transform.tag == "Notebook" & Vector3.Distance(this.player.position, base.transform.position) < this.openingDistance)) 
-			{
-				base.gameObject.SetActive(false); 
-				this.gc.CollectNotebook(); 
-				this.learningGame.SetActive(true); 
-			}
-		}
+        if (base.Interacted())
+        {
+            base.gameObject.SetActive(false);
+            this.gc.CollectNotebook();
+            this.learningGame.SetActive(true);
+        }
 	}
 
 	
