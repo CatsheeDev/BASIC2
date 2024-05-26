@@ -270,10 +270,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
 	public void ActivateSpoopMode()
 	{
 		this.spoopMode = true; 
-		this.entrance_0.Lower(); 
-		this.entrance_1.Lower();
-		this.entrance_2.Lower();
-		this.entrance_3.Lower();
+		foreach (EntranceScript entr in entrances) { entr.Lower(); }
 		this.baldiTutor.SetActive(false); 
 		this.baldi.SetActive(true); 
         this.principal.SetActive(true); 
@@ -294,11 +291,8 @@ public class GameControllerScript : Singleton<GameControllerScript>
 	public void ActivateFinaleMode()
 	{
 		this.finaleMode = true;
-		this.entrance_0.Raise(); 
-		this.entrance_1.Raise();
-		this.entrance_2.Raise();
-		this.entrance_3.Raise();
-	}
+        foreach (EntranceScript entr in entrances) { entr.Raise(); }
+    }
 
 	
 	public void GetAngry(float value) 
@@ -628,17 +622,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
 	private int cullingMask;
 
 	
-	public EntranceScript entrance_0;
-
-	
-	public EntranceScript entrance_1;
-
-	
-	public EntranceScript entrance_2;
-
-	
-	public EntranceScript entrance_3;
-
+	[SerializeField] private EntranceScript[] entrances;
 	
 	public GameObject baldiTutor;
 

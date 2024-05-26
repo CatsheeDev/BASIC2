@@ -86,7 +86,7 @@ public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageD
                 }
                 else
                 {
-                    Debug.LogError("Package file not found after download.");
+                    Debug.LogError("Package file not found after download");
                 }
             }
         }
@@ -100,7 +100,7 @@ public class BASICToolbox_PackageDatabase : BASICSingleton<BASICToolbox_PackageD
 
         string modifiedJsonContent = JsonConvert.SerializeObject(packageDatabase);
         File.WriteAllText(packagesPath, modifiedJsonContent);
-        Debug.Log("Package imported successfully.");
+        Debug.Log("Indexed package to packages.json successfully!");
     }
 
     public class RootObject

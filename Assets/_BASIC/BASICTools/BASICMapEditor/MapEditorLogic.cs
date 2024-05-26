@@ -102,7 +102,7 @@ public class MapEditorLogic : BASICSingleton<MapEditorLogic>
 
     private void Update()
     {
-        if (autoBuild && !subbed)
+       if (autoBuild && !subbed)
        {
          Selection.selectionChanged += selectonChanged;
          subbed = true;

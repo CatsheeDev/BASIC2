@@ -13511,10 +13511,7 @@ MonoBehaviour:
   playerTransform: {fileID: 6220}
   cameraTransform: {fileID: 8852}
   camera: {fileID: 10232}
-  entrance_0: {fileID: 0}
-  entrance_1: {fileID: 0}
-  entrance_2: {fileID: 0}
-  entrance_3: {fileID: 0}
+  entrances: []
   baldiTutor: {fileID: 2737}
   baldi: {fileID: 2839}
   baldiScrpt: {fileID: 21340}
@@ -13600,6 +13597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1cf7b0345ae694f9736c18c217f0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocked: 1
+  basic_deb_ovv: 0
 --- !u!114 &21221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14328,7 +14327,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normScaler: {fileID: 21313}
-  dpiScaler: {fileID: 21311}
   transforms:
   - {fileID: 21080}
   - {fileID: 21068}
@@ -14411,6 +14409,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 10
+  m_Canvas: {fileID: 0}
 --- !u!114 &21312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14592,6 +14591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d795d0141e7c351478f079d507f5536d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baldicator: {fileID: 0}
   db: 0
   baseTime: 3
   speed: 75
@@ -24169,17 +24169,17 @@ MonoBehaviour:
   mapSize: {x: 50, y: 1, z: 50}
   mapName: Map Name
   currentLayer: 1
-  currentTileProfileInIndex: 4
-  currentObjectProfile: {fileID: 11400000, guid: 5ab59fa2405b04b4e9c793c97a9098d5,
+  currentTileProfileInIndex: 0
+  currentObjectProfile: {fileID: 11400000, guid: b544fa199eee22344ad87b3794493f83,
     type: 2}
-  currentlySelectedTile: {fileID: 1723004310095604045, guid: fb86cef7a07da114a81a8bb39dbae39e,
+  currentlySelectedTile: {fileID: 9031442278860466285, guid: 567d342c9e0c8b44db5e4fff3980b6fc,
     type: 3}
   selectedTiles: []
   lastRotation: {x: 0, y: 0, z: 0}
   exactRotation: {x: 0, y: 0, z: 0}
   addExactRotation: 0
   autoBuild: 0
-  aiProfile: 0
+  aiProfile: 1
 --- !u!4 &454811440
 Transform:
   m_ObjectHideFlags: 0
@@ -44676,6 +44676,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1cf7b0345ae694f9736c18c217f0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocked: 1
+  basic_deb_ovv: 0
 --- !u!114 &1579952632
 MonoBehaviour:
   m_ObjectHideFlags: 0
