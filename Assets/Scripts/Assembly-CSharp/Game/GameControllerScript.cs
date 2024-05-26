@@ -45,6 +45,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
 
 			Debug.LogError("BAISIC // GAMECONTROLLER // NO ITEM PROFILE");
 		}
+
 		this.debugMode = settingsProfile.DebugMode;
 		this.notebooks = settingsProfile.startingNotebooks;
 		this.failedNotebooks = settingsProfile.startingFailedNotebooks;
@@ -270,16 +271,16 @@ public class GameControllerScript : Singleton<GameControllerScript>
 	public void ActivateSpoopMode()
 	{
 		this.spoopMode = true; 
-		foreach (EntranceScript entr in entrances) { entr.Lower(); }
-		this.baldiTutor.SetActive(false); 
-		this.baldi.SetActive(true); 
-        this.principal.SetActive(true); 
-        this.crafters.SetActive(true); 
-        this.playtime.SetActive(true); 
-        this.gottaSweep.SetActive(true); 
-        this.bully.SetActive(true); 
-        this.firstPrize.SetActive(true); 
+		foreach (EntranceScript entr in entrances) 
+		{ 
+			entr.Lower(); 
+		}
 		
+		foreach (BASICNPC npc in FindObjectsOfType<BASICNPC>(true))
+		{
+			npc.gameObject.SetActive(npc.shouldSpoop); 
+		}
+
 		if (settingsProfile.YCTP)
 			this.audioDevice.PlayOneShot(this.aud_Hang); 
 

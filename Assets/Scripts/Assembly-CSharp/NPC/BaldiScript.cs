@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class BaldiScript : MonoBehaviour
+public class BaldiScript : BASICNPC
 {
 	[SerializeField] private Animator baldicator; 
 
