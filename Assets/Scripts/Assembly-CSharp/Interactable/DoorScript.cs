@@ -44,10 +44,6 @@ public class DoorScript : BASICInteractable
 
 		if (base.Interacted()) 
 		{
-			if (this.baldi.isActiveAndEnabled & this.silentOpens <= 0)
-			{
-				this.baldi.Hear(base.transform.position, 1f); 
-			}
 			this.OpenDoor();
 			if (this.silentOpens > 0) 
 			{
@@ -62,6 +58,10 @@ public class DoorScript : BASICInteractable
 		if (this.silentOpens <= 0 && !this.bDoorOpen) 
 		{
 			this.myAudio.PlayOneShot(this.doorOpen, 1f);
+			if (this.baldi.isActiveAndEnabled & this.silentOpens <= 0)
+			{
+				this.baldi.Hear(base.transform.position, 1f); 
+			}
 		}
 		this.barrier.enabled = false; 
 		this.invisibleBarrier.enabled = false;
