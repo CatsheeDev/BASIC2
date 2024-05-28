@@ -11,8 +11,7 @@ public class BASICInteractable : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && Time.timeScale != 0f)
         {
-            RaycastHit raycastHit;
-            if (!Physics.Raycast(Camera.main.ScreenPointToRay(new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f)), out raycastHit))
+            if (!Physics.Raycast(Camera.main.ScreenPointToRay(new Vector3((float)(Screen.width / 2), (float)(Screen.height / 2), 0f))))
                 return false;
 
             if (Vector3.Distance(GameControllerScript.Instance.playerTransform.position, transform.position) < interactDistance)
