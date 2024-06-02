@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using static PlasticPipe.Server.MonitorStats;
 
 public class ItemEditor_State_Main : IUIState
 {

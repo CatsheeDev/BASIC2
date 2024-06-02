@@ -7,16 +7,20 @@ using BASIC.UI;
 public class DecompEditorWindow : BASICEditorSingleton<DecompEditorWindow>
 {
     public BASIC_UIStates stateManager;
+    public GameControllerScript gc; 
 
     [MenuItem("BASIC/Tools/Decomp Editor")]
-    private static void ShowWindow()
+    public static void ShowWindow(GameControllerScript gC)
     {
         BASIC_UIBASE.createWindow<DecompEditorWindow>("Decomp Editor");
+        Instance.gc = gC;
     }
 
     private void OnEnable()
     {
-        stateManager = new BASIC_UIStates(new DecompEditorStates_Main());
+        DecompEditorStates_Main newWindow = new();
+        newWindow.currentGC = Instance.gc; 
+        stateManager = new BASIC_UIStates(newWindow);
     }
 
     private void OnGUI()

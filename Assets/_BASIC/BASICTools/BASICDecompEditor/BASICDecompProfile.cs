@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DecompData_", menuName = "BASIC/Decomp Editor/Decomp Profile", order = 1)]
+[System.Serializable]
 public class BASICDecompProfile : ScriptableObject
 {
     public bool DebugMode = false;

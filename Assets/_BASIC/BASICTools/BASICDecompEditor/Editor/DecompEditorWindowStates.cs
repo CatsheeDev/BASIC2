@@ -6,16 +6,11 @@ public class DecompEditorStates_Main : IUIState
 {
     private BASICDecompProfile currentSettingsData;
     private Vector2 scrollPos;
-    private GameControllerScript currentGC; 
+    public GameControllerScript currentGC; 
 
     public void RenderUI()
     {
-        currentGC = (GameControllerScript)EditorGUILayout.ObjectField(currentGC, typeof(GameControllerScript), true);
-        if (currentGC == null)
-        {
-            EditorGUILayout.LabelField("GameController not found", EditorStyles.boldLabel);
-            return;
-        }
+        currentGC = GameControllerScriptEditor.currGC; 
 
         EditorGUILayout.BeginVertical("box");
         EditorGUILayout.LabelField("Decomp Profile", EditorStyles.boldLabel);
