@@ -42,7 +42,7 @@ public class DoorScript : BASICInteractable
 			}
 		}
 
-		if (base.Interacted()) 
+		if (base.Interacted() && !bDoorLocked) 
 		{
 			this.OpenDoor();
 			if (this.silentOpens > 0) 
