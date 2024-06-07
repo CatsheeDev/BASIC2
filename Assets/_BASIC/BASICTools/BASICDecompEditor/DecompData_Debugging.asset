@@ -15,6 +15,7 @@ MonoBehaviour:
   DebugMode: 1
   YCTP: 0
   baldicator: 1
+  swapItems: 1
   maxNotebooks: 7
   startingNotebooks: 0
   startingFailedNotebooks: 0

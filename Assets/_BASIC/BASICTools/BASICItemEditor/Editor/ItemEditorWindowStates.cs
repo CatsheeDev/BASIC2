@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static PlasticPipe.Server.MonitorStats;
 
 public class ItemEditor_State_Main : IUIState
 {
@@ -48,6 +49,11 @@ public class ItemEditor_State_Main : IUIState
         }
 
         ItemEditorLogic.Instance._controllerScript.itemProfile = ItemEditorLogic.Instance._itemProfile;
+
+        if (GUILayout.Button(new GUIContent("Save", "Save your Items")))
+        {
+            ItemEditor_EnumBuilder.Instance.beginBuild(ItemEditorLogic.Instance._itemProfile); 
+        }
 
         if (GUILayout.Button(new GUIContent("Add Item", "Add a new item to the list")))
         {

@@ -6,12 +6,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-
-/*TO-DO
-    hall linking - aka suicide
- 
- */
-
 [ExecuteAlways]
 public class MapEditorLogic : BASICSingleton<MapEditorLogic>
 {
@@ -249,67 +243,10 @@ public class MapEditorLogic : BASICSingleton<MapEditorLogic>
                     Tags newTagObject = newTileContents.AddComponent<Tags>();
                     newTagObject.SetTags(aiTag); 
                 }
-
-                connectNeighbouringTiles(tileSpot.transform);
-
                 Selection.objects = selectedTiles.Cast<UnityEngine.Object>().ToArray();
                 EditorGUIUtility.PingObject(newTileContents);
         }
     }
-
-    //i am a disappointment
-    private void connectNeighbouringTiles(Transform tilesParent)
-    {
-        //REMEMBER ARRAYS START AT 0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        string[] centrePos = tilesParent.name.Split('_');
-
-        string[] leftPos = tilesParent.name.Split('_');
-        leftPos[3] = (int.Parse(centrePos[3]) -1).ToString();
-
-        string[] rightPos = tilesParent.name.Split('_');
-        rightPos[3] = (int.Parse(centrePos[2]) +1).ToString();
-
-        string[] upPos = tilesParent.name.Split('_');
-        upPos[1] = (int.Parse(centrePos[1]) +1).ToString();
-
-        string[] downPos = tilesParent.name.Split('_');
-        downPos[1] = (int.Parse(centrePos[1]) -1).ToString();
-
-        GameObject[] neighbouringTiles = new GameObject[4];
-        neighbouringTiles[0] = tilesParent.parent.Find($"Tile_{leftPos[1]}_{leftPos[2]}_{leftPos[3]}").gameObject;
-        neighbouringTiles[1] = tilesParent.parent.Find($"Tile_{rightPos[1]}_{rightPos[2]}_{rightPos[3]}").gameObject;
-        neighbouringTiles[2] = tilesParent.parent.Find($"Tile_{upPos[1]}_{upPos[2]}_{upPos[3]}").gameObject;
-        neighbouringTiles[3] = tilesParent.parent.Find($"Tile_{downPos[1]}_{downPos[2]}_{downPos[3]}").gameObject;
-
-        foreach (GameObject fnf in neighbouringTiles)
-        {
-            Debug.Log($"the tile: {fnf.name} should be a neighbour, and isEmpty is: {checkIfAllLayersAreEmpty_IfYoureReadingThisAndYouEditMapMaidYouBetterCreateAPROnGithub(fnf)}");
-        }
-    }
-
-    GameObject findAllWalls(GameObject obj)
-    {
-
-        if (obj != null)
-        {
-
-            Transform currentTransform = obj.transform;
-
-
-            while (currentTransform != null)
-            {
-                Tags tags = currentTransform.GetComponent<Tags>();
-                if (tags != null && tags.GetTags()[0] == newTileTag)
-                {
-                    return currentTransform.gameObject;
-                }
-                currentTransform = currentTransform.parent;
-            }
-        }
-
-        return null;
-    }
-
 
     public void placeTile()
     {
@@ -372,6 +309,7 @@ public class MapEditorLogic : BASICSingleton<MapEditorLogic>
                     newTagObject.SetTags(aiTag);
                 }
                 Selection.objects = selectedTiles.Cast<UnityEngine.Object>().ToArray();
+                EditorGUIUtility.PingObject(newTileContents);
             }
         }
     }
@@ -394,46 +332,19 @@ public class MapEditorLogic : BASICSingleton<MapEditorLogic>
                     DestroyImmediate(layerObject.GetChild(0).gameObject);
                 }
 
-                if (checkIfAllLayersAreEmpty_IfYoureReadingThisAndYouEditMapMaidYouBetterCreateAPROnGithub(tileParent.gameObject))
+                foreach (MeshRenderer renderer in tile.GetComponentsInChildren<MeshRenderer>())
                 {
-                    foreach (MeshRenderer renderer in tile.GetComponentsInChildren<MeshRenderer>())
+                    if (renderer != null && renderer.sharedMaterial == emptyTileText)
                     {
-                        if (renderer != null && renderer.sharedMaterial == emptyTileText)
-                        {
-                            renderer.enabled = true;
-                            break;
-                        }
-
+                        renderer.enabled = true;
+                        break;
                     }
-                }
 
+                }
                 Selection.objects = selectedTiles.Cast<UnityEngine.Object>().ToArray();
                 EditorGUIUtility.PingObject(tile);
             }
         }
-    }
-
-    private bool checkIfAllLayersAreEmpty_IfYoureReadingThisAndYouEditMapMaidYouBetterCreateAPROnGithub(GameObject parentTile)
-    {
-        List<GameObject> layerObjects = new List<GameObject>();
-
-        foreach (Transform go in parentTile.GetComponentsInChildren<Transform>())
-        {
-            if (go.gameObject != null && go.name.Contains("Layer"))
-            {
-                layerObjects.Add(go.gameObject);
-            }
-        }
-
-        foreach (GameObject go in layerObjects)
-        {
-            if (go.transform.childCount > 0)
-            {
-                return false; 
-            }
-        }
-
-        return true;
     }
 
     public void rotateTile(Vector3 rotation, bool add)
@@ -475,7 +386,7 @@ public class MapEditorLogic : BASICSingleton<MapEditorLogic>
         {
             if (tag != null && tag.HasTag(newTileTag))
             {
-                tiles.Add(tag.gameObject);          
+                tiles.Add(tag.gameObject);
             }
         }
 

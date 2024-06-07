@@ -50,7 +50,7 @@ namespace BASIC.Debugging
 
         void giveItem(ItemInfo currItem)
         {
-            currentGameController.CollectItem_BASIC(currItem.Value);
+            currentGameController.CollectItem_BASIC(currItem.Value, null);
         }
     }
 }

@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class PickupScript : BASICInteractable
 {
-	[SerializeField] private int itemIndex;
+	public BASICItem itemIndex;
 
 	private void FixedUpdate()
 	{
 		if (base.Interacted())
 		{
+			Debug.Log("htitttttt"); 
 			gameObject.SetActive(false);
-			GameControllerScript.Instance.CollectItem_BASIC(itemIndex);
+			GameControllerScript.Instance.CollectItem_BASIC((int)itemIndex, this);
 		}
 	}
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DecompData_", menuName = "BASIC/Decomp Editor/Decomp Profile", order = 1)]
-[System.Serializable]
 public class BASICDecompProfile : ScriptableObject
 {
     public bool DebugMode = false;
@@ -9,7 +8,9 @@ public class BASICDecompProfile : ScriptableObject
     [Header("General Options")]
     public bool YCTP = true;
 
-    public bool baldicator; 
+    public bool baldicator;
+
+    public bool swapItems;
 
     [Header("Notebooks")]
     public int maxNotebooks = 7;

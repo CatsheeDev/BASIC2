@@ -1,7 +1,6 @@
 ﻿using Pixelplacement;
 using System;
 using System.Collections;
-using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using TMPro;
@@ -283,7 +282,13 @@ public class GameControllerScript : Singleton<GameControllerScript>
 		}
 
 		if (settingsProfile.YCTP)
-			this.audioDevice.PlayOneShot(this.aud_Hang); 
+		{
+			this.audioDevice.PlayOneShot(this.aud_Hang);
+		}
+		else if (!settingsProfile.YCTP && this.notebooks == settingsProfile.maxNotebooks & this.mode == "story")
+        {
+            this.audioDevice.PlayOneShot(this.aud_AllNotebooks, 0.8f);
+        }
 
 		this.learnMusic.Stop(); 
 		this.schoolMusic.Stop();
@@ -375,7 +380,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
 
 
     //BASIC IEM SECTION
-    public void CollectItem_BASIC(int itemId)
+    public void CollectItem_BASIC(int itemId, PickupScript itemPickup)
 	{
         int emptySlotIndex = -1;
         for (int i = 0; i < this.item.Length; i++)
@@ -385,6 +390,14 @@ public class GameControllerScript : Singleton<GameControllerScript>
                 emptySlotIndex = i;
                 break;
             }
+        }
+        if (emptySlotIndex == -1 && settingsProfile.swapItems)
+		{
+			itemPickup.gameObject.SetActive(true); 
+			itemPickup.itemIndex = (BASICItem)item[itemSelected];
+
+			Texture2D newTex = itemProfile.items[item[itemSelected]].Icon; 
+			itemPickup.GetComponentInChildren<SpriteRenderer>().sprite = Sprite.Create(newTex, new Rect(0, 0, newTex.width, newTex.height), new Vector2(0.5f, 0.5f));
         }
 
         int slotIndex = emptySlotIndex != -1 ? emptySlotIndex : this.itemSelected;
