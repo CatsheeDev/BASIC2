@@ -1,6 +1,7 @@
 ﻿using Pixelplacement;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Linq;
 using TMPro;
@@ -11,8 +12,9 @@ using UnityEngine.UI;
 
 public class GameControllerScript : Singleton<GameControllerScript>
 {
-	private GameObject itemHolder; 
+	private GameObject itemHolder;
 
+	[HideInInspector] public List<GameObject> itemObjects = new(); 
 
 	private void Start()
 	{
@@ -45,7 +47,6 @@ public class GameControllerScript : Singleton<GameControllerScript>
 
 			Debug.LogError("BAISIC // GAMECONTROLLER // NO ITEM PROFILE");
 		}
-
 		this.debugMode = settingsProfile.DebugMode;
 		this.notebooks = settingsProfile.startingNotebooks;
 		this.failedNotebooks = settingsProfile.startingFailedNotebooks;
@@ -57,13 +58,13 @@ public class GameControllerScript : Singleton<GameControllerScript>
 	void SetupItems()
 	{
 		itemHolder = new GameObject("Items"); 
-		itemHolder.transform.parent = this.transform;
+		itemHolder.transform.parent = transform;
 
         ItemInfo[] itemData = itemProfile.items;
 
-        for (int i = 1; i < itemData.Length; i++)
+        foreach (ItemInfo item in itemData)
         {
-            string scriptName = itemData[i].Name;
+            string scriptName = item.Name;
             string fullScriptName = $"{scriptName}";
 
             Type scriptType = Type.GetType(fullScriptName);
@@ -71,7 +72,10 @@ public class GameControllerScript : Singleton<GameControllerScript>
             {
                 if (!this.gameObject.GetComponent(scriptType))
                 {
-                   itemHolder.AddComponent(scriptType);
+					GameObject hold = new GameObject(scriptName);
+					hold.transform.parent = itemHolder.transform;
+                    hold.AddComponent(scriptType);
+					itemObjects.Add(hold); 
                 }
             }
             else

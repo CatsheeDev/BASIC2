@@ -121,7 +121,9 @@ public class PlayerScript : MonoBehaviour
 				this.moveDirection = new Vector3(0f, 0f, 0f);
 			}
 		}
-		this.cc.Move(this.moveDirection);
+
+		lastPosition = transform.position; 
+        this.cc.Move(this.moveDirection);
 	}
 
 	
@@ -143,6 +145,8 @@ public class PlayerScript : MonoBehaviour
 			this.stamina += this.staminaRate * Time.deltaTime;
 		}
 		this.staminaBar.value = this.stamina;
+
+		Debug.Log(ItemEditorAPI.FindItem(BASICItem.PrincipalKeys)); 
 	}
 
 	
@@ -314,6 +318,7 @@ public class PlayerScript : MonoBehaviour
 	
 	public Vector3 frozenPosition;
 
+	[HideInInspector] public Vector3 lastPosition; 
 	
 	private bool sensitivityActive;
 
