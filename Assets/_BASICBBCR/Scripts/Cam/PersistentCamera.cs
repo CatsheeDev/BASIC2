@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Pixelplacement;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.PlayerLoop.PostLateUpdate;
 
 public enum TransitionType
 {
@@ -13,40 +11,45 @@ public enum TransitionType
 [RequireComponent(typeof(Camera))]
 public class PersistentCamera : Singleton<PersistentCamera>
 {
-    [SerializeField] private RenderTexture GlobalTexture;
-    private RenderTexture TransToTex; 
-    private RenderTexture TransFromTex;
-    [SerializeField] private RawImage TransToObject;
-    [SerializeField] private RawImage TransFromObject;
+    [SerializeField] private RenderTexture globalTexture;
+    private RenderTexture transitionToTexture, transitionFromTexture;
+    [SerializeField] private RawImage transitionToObject, transitionFromObject;
 
-    private Rect screenSize; 
+    private Rect screenSize;
     private IEnumerator transitionManager;
-    private bool inTransition;
+    private bool isInTransition;
 
-    private Camera WorldCam;
-    [SerializeField] private Animator ditherAnimation; 
-    private void Start()
+    private Camera worldCam;
+    [SerializeField] private Camera toCam, fromCam;
+
+    [SerializeField] private Animator ditherAnimator;
+
+    private void Awake()
     {
-        WorldCam = GetComponent<Camera>();
-        TransToTex = new RenderTexture(GlobalTexture);
-        TransFromTex = new(GlobalTexture); 
+        worldCam = GetComponent<Camera>();
+        InitializeTextures();
+        UpdateResolution();
+    }
 
-        UpdateResolution(); 
+    private void InitializeTextures()
+    {
+        transitionToTexture = new RenderTexture(globalTexture);
+        transitionFromTexture = new RenderTexture(globalTexture);
     }
 
     public void UpdateResolution()
     {
         screenSize = new Rect(0, 0, 640, 360);
-        GlobalTexture.width = (int)screenSize.width;
-        GlobalTexture.height = (int)screenSize.height;
+        globalTexture.width = (int)screenSize.width;
+        globalTexture.height = (int)screenSize.height;
 
-        TransToTex.width = (int)screenSize.width;
-        TransToTex.height = (int)screenSize.height;
-        TransToObject.SetNativeSize();
+        transitionToTexture.width = (int)screenSize.width;
+        transitionToTexture.height = (int)screenSize.height;
+        transitionToObject.SetNativeSize();
 
-        TransFromTex.width = (int)screenSize.width; 
-        TransFromTex.height = (int)screenSize.height;
-        TransFromObject.SetNativeSize(); 
+        transitionFromTexture.width = (int)screenSize.width;
+        transitionFromTexture.height = (int)screenSize.height;
+        transitionFromObject.SetNativeSize();
     }
 
     public void Transition(TransitionType type, float duration)
@@ -56,14 +59,15 @@ public class PersistentCamera : Singleton<PersistentCamera>
 
     private IEnumerator BeginTransition(TransitionType type, float duration)
     {
-        WorldCam.Render();
-        Debug.Log("rendered camera");
-        ScreenCapture.CaptureScreenshotIntoRenderTexture(TransFromTex);
-        RenderTexture.active = TransToTex;
-        if (inTransition)
+        CopyGlobalTextureToTransitionTextures();
+        ToggleCams(false);
+        yield return new WaitForEndOfFrame();
+
+        if (isInTransition)
         {
             StopCoroutine(transitionManager);
         }
+
         switch (type)
         {
             case TransitionType.Dither:
@@ -71,27 +75,37 @@ public class PersistentCamera : Singleton<PersistentCamera>
                 break;
         }
 
-        inTransition = true; 
-        StartCoroutine(transitionManager);
-
-        yield return null; 
+        isInTransition = true;
+        yield return StartCoroutine(transitionManager);
     }
 
-    private void EndTransition(GameObject transer)
+    private void CopyGlobalTextureToTransitionTextures()
     {
-        inTransition = false;
-        transer.SetActive(true);
-        WorldCam.enabled = true;
+        Graphics.CopyTexture(globalTexture, transitionFromTexture);
+        Graphics.CopyTexture(globalTexture, transitionToTexture);
     }
 
-    
-    private IEnumerator Dither(float timeBetweenAdvance)
+    private void ToggleCams(bool type)
     {
-        ditherAnimation.gameObject.SetActive(true); 
-        WorldCam.enabled = false; 
-        ditherAnimation.Play("DitherWindow", 1, timeBetweenAdvance);
-        yield return new WaitForSecondsRealtime(timeBetweenAdvance);
-        EndTransition(ditherAnimation.gameObject); 
+        fromCam.enabled = type;
+        worldCam.enabled = type;
+        toCam.enabled = type;
+    }
+
+    private IEnumerator Dither(float duration)
+    {
+        ditherAnimator.gameObject.SetActive(true);
+        ditherAnimator.Play("DitherWindow", -1, duration);
+        yield return new WaitForSecondsRealtime(duration);
+        EndTransition(ditherAnimator.gameObject);
         yield return null;
+    }
+
+    private void EndTransition(GameObject target)
+    {
+        isInTransition = false;
+        target.SetActive(true);
+        worldCam.targetTexture = null;
+        ToggleCams(true); 
     }
 }

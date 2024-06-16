@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,10 +13,25 @@ public class WarningScreenScript : MonoBehaviour
 		if (Input.anyKeyDown && !debounce)
 		{
 			debounce = true;
-			PersistentCamera.Instance?.Transition(TransitionType.Dither, 2);
+			PersistentCamera.Instance?.Transition(TransitionType.Dither, 10);
             Cover.SetActive(true);
-			Debug.Log("showed cover");
-            //SceneManager.LoadScene("MainMenu");
+            GetComponent<AudioSource>().Stop(); 
+            StartCoroutine(WaitForTransition());
 		}
 	}
+
+    private IEnumerator WaitForTransition()
+    {
+        yield return null;
+        float WaitTime = 2f;
+        while (WaitTime > 0f)
+        {
+            WaitTime -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        yield return null;
+        SceneManager.LoadScene("MainMenu");
+        yield break;
+    }
 }
