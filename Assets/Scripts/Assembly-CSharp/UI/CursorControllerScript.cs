@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Pixelplacement;
+using System;
 using UnityEngine;
 
 
-public class CursorControllerScript : MonoBehaviour
+public class CursorControllerScript : Singleton<CursorControllerScript> 
 {
 	public bool isLocked = true;
 	public bool basic_deb_ovv; 

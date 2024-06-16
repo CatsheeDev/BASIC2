@@ -52,17 +52,21 @@ public class PersistentCamera : Singleton<PersistentCamera>
         transitionFromObject.SetNativeSize();*/
     }
 
-    public void Transition(TransitionType type, float duration)
+    public void Transition(TransitionType type, float duration, bool reverse)
     {
-        StartCoroutine(BeginTransition(type, duration));
+        StartCoroutine(BeginTransition(type, duration, reverse));
     }
 
-    private IEnumerator BeginTransition(TransitionType type, float duration)
+    private IEnumerator BeginTransition(TransitionType type, float duration, bool reverse)
     {
         CopyGlobalTextureToTransitionTextures();
-        ToggleCams(false);
+        CursorControllerScript.Instance?.LockCursor();
+        fromCam.enabled = false;
+        Debug.Log("off with thy cams");
         yield return new WaitForEndOfFrame();
+        Debug.Log("end fo frame");
 
+        toCam.enabled = false; 
         if (isInTransition)
         {
             StopCoroutine(transitionManager);
@@ -71,7 +75,7 @@ public class PersistentCamera : Singleton<PersistentCamera>
         switch (type)
         {
             case TransitionType.Dither:
-                transitionManager = Dither(duration);
+                transitionManager = Dither(duration, reverse    );
                 break;
         }
 
@@ -93,10 +97,15 @@ public class PersistentCamera : Singleton<PersistentCamera>
         toCam.enabled = type;
     }
 
-    private IEnumerator Dither(float duration)
+    private IEnumerator Dither(float duration, bool reverse)
     {
+        string trigger = "Dither";
+        if (reverse)
+        {
+            trigger = "DitherR";
+        }
         ditherAnimator.gameObject.SetActive(true);
-        ditherAnimator.Play("DitherWindow", -1, duration);
+        ditherAnimator.SetTrigger(trigger);
         yield return new WaitForSecondsRealtime(duration);
         EndTransition(ditherAnimator.gameObject);
         yield return null;
@@ -107,6 +116,7 @@ public class PersistentCamera : Singleton<PersistentCamera>
         isInTransition = false;
         target.SetActive(true);
         worldCam.targetTexture = null;
+        CursorControllerScript.Instance?.UnlockCursor();
         ToggleCams(true); 
     }
 }

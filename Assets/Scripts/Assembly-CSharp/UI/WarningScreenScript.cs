@@ -13,7 +13,7 @@ public class WarningScreenScript : MonoBehaviour
 		if (Input.anyKeyDown && !debounce)
 		{
 			debounce = true;
-			PersistentCamera.Instance?.Transition(TransitionType.Dither, 10);
+			PersistentCamera.Instance?.Transition(TransitionType.Dither, 1, false);
             Cover.SetActive(true);
             GetComponent<AudioSource>().Stop(); 
             StartCoroutine(WaitForTransition());
