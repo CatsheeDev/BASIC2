@@ -1,26 +1,21 @@
 ﻿using System;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class WarningScreenScript : MonoBehaviour
 {
-	
-	private void Start()
-	{
-		
-	}
+	[SerializeField] private GameObject Cover;
+	private bool debounce; 
 
-	
 	private void Update()
 	{
-		if (Input.anyKeyDown)
+		if (Input.anyKeyDown && !debounce)
 		{
-			SceneManager.LoadScene("MainMenu");
+			debounce = true;
+			PersistentCamera.Instance?.Transition(TransitionType.Dither, 2);
+            Cover.SetActive(true);
+			Debug.Log("showed cover");
+            //SceneManager.LoadScene("MainMenu");
 		}
 	}
-
-	
-	
 }
