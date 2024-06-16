@@ -3,10 +3,10 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using UnityEditor;
+using System.Linq.Expressions;
+using UnityEditor;
     using UnityEngine;
-
-    [ExecuteAlways]
+[ExecuteAlways]
     public class MapEditorLogic : BASICSingleton<MapEditorLogic>
     {
         [SerializeField] private UnityEngine.Object emptyTilePrefab;
@@ -227,6 +227,7 @@
 
                         if (layerObject.transform.childCount > 0)
                         {
+                            DisconnectWalls(layerObject.transform.GetChild(0).transform); 
                             DestroyImmediate(layerObject.transform.GetChild(0).gameObject);
                         }
                     }
@@ -243,10 +244,63 @@
                         Tags newTagObject = newTileContents.AddComponent<Tags>();
                         newTagObject.SetTags(aiTag); 
                     }
+
+                    ConnectWalls(tileSpot.transform); 
                     Selection.objects = selectedTiles.Cast<UnityEngine.Object>().ToArray();
                     EditorGUIUtility.PingObject(newTileContents);
             }
         }
+
+        public void ConnectWalls(Transform tile)
+        {
+            List<Transform> Walls = new(); 
+
+            foreach (Transform child in tile.GetComponentsInChildren<Transform>())
+            {
+                if (child.name == "Wall")
+                {
+                    Walls.Add(child);
+                }
+            }
+
+            foreach (Transform wall in Walls)
+            {
+                Collider[] hitColliders = Physics.OverlapSphere(wall.position, .1f);
+
+                foreach (Collider collider in hitColliders)
+                {
+                    if (collider.gameObject.name == "Wall" && collider.transform != wall)
+                    {
+                        wall.gameObject.AddComponent<WallLink>().Link = collider.transform;
+                        collider.gameObject.AddComponent<WallLink>().Link = wall.transform;
+                        collider.gameObject.SetActive(false);
+                        wall.gameObject.SetActive(false); 
+                    }
+                }
+            }
+        }
+        
+    public void DisconnectWalls(Transform tile)
+    {
+        List<Transform> Walls = new();
+
+        foreach (Transform child in tile.GetComponentsInChildren<Transform>(true))
+        {
+            if (child.name == "Wall")
+            {
+                Walls.Add(child);
+            }
+        }
+
+        foreach (Transform wall in Walls)
+        {
+            if (wall.TryGetComponent(out WallLink linker))
+            {
+                if (linker.Link != null)
+                    linker.Link.gameObject.SetActive(true);
+            }
+        }
+    }
 
         public void placeTile()
         {
@@ -293,6 +347,7 @@
                     {
                         if (layerObject.transform.childCount > 0)
                         {
+                        DisconnectWalls(layerObject.GetChild(0)); 
                             DestroyImmediate(layerObject.transform.GetChild(0).gameObject);
                         }
                     }
@@ -329,7 +384,8 @@
                     }
                     if (layerObject != null && layerObject.childCount > 0)
                     {
-                        DestroyImmediate(layerObject.GetChild(0).gameObject);
+                    DisconnectWalls(layerObject.GetChild(0));
+                    DestroyImmediate(layerObject.GetChild(0).gameObject);
                     }
 
                     foreach (MeshRenderer renderer in tile.GetComponentsInChildren<MeshRenderer>())
