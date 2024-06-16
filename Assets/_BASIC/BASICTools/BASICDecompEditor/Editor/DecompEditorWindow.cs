@@ -12,6 +12,10 @@ public class DecompEditorWindow : BASICEditorSingleton<DecompEditorWindow>
     private static void ShowWindow()
     {
         BASIC_UIBASE.createWindow<DecompEditorWindow>("Decomp Editor");
+
+        var window = GetWindow<DecompEditorWindow>();
+        var iconPath = Resources.Load<Texture>("ditheredOlly");
+        window.titleContent = new GUIContent("Decomp Editor", iconPath);
     }
 
     private void OnEnable()

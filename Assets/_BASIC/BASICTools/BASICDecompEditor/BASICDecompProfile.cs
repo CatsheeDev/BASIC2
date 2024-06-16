@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DecompData_", menuName = "BASIC/Decomp Editor/Decomp Profile", order = 1)]
@@ -21,4 +22,13 @@ public class BASICDecompProfile : ScriptableObject
 
     [Header("Stamina")]
     public float maxStamina = 100;
+
+    [Header("EXPERIMENTAL")]
+    [InfoBox("ENABLE AT OWN RISK", EInfoBoxType.Warning)]
+    public bool UseExperiments;
+
+    [ShowIf("EnabledExperiments")]
+    public bool UseBASICController;
+
+    public bool EnabledExperiments() { return UseExperiments; }
 }
