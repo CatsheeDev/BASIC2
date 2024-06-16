@@ -11,9 +11,9 @@ public enum TransitionType
 [RequireComponent(typeof(Camera))]
 public class PersistentCamera : Singleton<PersistentCamera>
 {
-    [SerializeField] private RenderTexture globalTexture;
-    private RenderTexture transitionToTexture, transitionFromTexture;
-    [SerializeField] private RawImage transitionToObject, transitionFromObject;
+    //[SerializeField] private RenderTexture globalTexture;
+    //private RenderTexture transitionToTexture, transitionFromTexture;
+    //[SerializeField] private RawImage transitionToObject, transitionFromObject;
 
     private Rect screenSize;
     private IEnumerator transitionManager;
@@ -33,13 +33,13 @@ public class PersistentCamera : Singleton<PersistentCamera>
 
     private void InitializeTextures()
     {
-        transitionToTexture = new RenderTexture(globalTexture);
-        transitionFromTexture = new RenderTexture(globalTexture);
+/*        transitionToTexture = new RenderTexture(globalTexture);
+        transitionFromTexture = new RenderTexture(globalTexture);*/
     }
 
     public void UpdateResolution()
     {
-        screenSize = new Rect(0, 0, 640, 360);
+/*        screenSize = new Rect(0, 0, 640, 360);
         globalTexture.width = (int)screenSize.width;
         globalTexture.height = (int)screenSize.height;
 
@@ -49,7 +49,7 @@ public class PersistentCamera : Singleton<PersistentCamera>
 
         transitionFromTexture.width = (int)screenSize.width;
         transitionFromTexture.height = (int)screenSize.height;
-        transitionFromObject.SetNativeSize();
+        transitionFromObject.SetNativeSize();*/
     }
 
     public void Transition(TransitionType type, float duration)
@@ -81,12 +81,13 @@ public class PersistentCamera : Singleton<PersistentCamera>
 
     private void CopyGlobalTextureToTransitionTextures()
     {
-        Graphics.CopyTexture(globalTexture, transitionFromTexture);
-        Graphics.CopyTexture(globalTexture, transitionToTexture);
+        //Graphics.CopyTexture(globalTexture, transitionFromTexture);
+       //Graphics.CopyTexture(globalTexture, transitionToTexture);
     }
 
     private void ToggleCams(bool type)
     {
+        Debug.LogWarning("----IGNORE-----");
         fromCam.enabled = type;
         worldCam.enabled = type;
         toCam.enabled = type;
