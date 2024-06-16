@@ -80,6 +80,7 @@ public class PersistentCamera : Singleton<PersistentCamera>
         }
 
         isInTransition = true;
+        ditherAnimator.gameObject.SetActive(false);
         yield return StartCoroutine(transitionManager);
     }
 
@@ -117,6 +118,7 @@ public class PersistentCamera : Singleton<PersistentCamera>
         target.SetActive(true);
         worldCam.targetTexture = null;
         CursorControllerScript.Instance?.UnlockCursor();
+        ditherAnimator.gameObject.SetActive(false);
         ToggleCams(true); 
     }
 }
