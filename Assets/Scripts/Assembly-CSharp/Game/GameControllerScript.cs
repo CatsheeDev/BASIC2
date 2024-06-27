@@ -416,7 +416,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
     private void InteractItem(ItemInfo itemInfo, bool use)
     {
         string scriptName = itemInfo.Name;
-        Component scriptComponent = itemHolder.GetComponent(scriptName);
+		Component scriptComponent = ItemEditorAPI.FindItem((BASICItem)itemInfo.Value).GetComponent(scriptName); 
 
         if (scriptComponent != null && scriptComponent is ItemBase)
         {

@@ -27,12 +27,11 @@ public class MapEditor_State_Start : IUIState
         }
 
         EditorGUILayout.Space(30);
-/*        if (GUILayout.Button("Manage Profiles", buttonStyle))
+
+        if (GUILayout.Button("Edit Map (baby mode)", buttonStyle))
         {
+            PlusMapEditor_Window.ShowWindow(); 
         }
-        if (GUILayout.Button("Manage Layers", buttonStyle))
-        {
-        }*/
         BASIC_UIBASE.endVertical();
     }
 }
@@ -130,8 +129,6 @@ public class MapEditor_state_EditorSettings : IUIState
 
         EditorGUILayout.BeginVertical("box");
         EditorGUILayout.LabelField("EXPERIMENTAL OPTIONS", EditorStyles.boldLabel);
-
-        MapEditorLogic.Instance.autoBuild = EditorGUILayout.ToggleLeft("Auto Build", MapEditorLogic.Instance.autoBuild); 
         EditorGUILayout.EndVertical();
 
         EditorGUILayout.Space();

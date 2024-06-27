@@ -145,8 +145,6 @@ public class PlayerScript : MonoBehaviour
 			this.stamina += this.staminaRate * Time.deltaTime;
 		}
 		this.staminaBar.value = this.stamina;
-
-		Debug.Log(ItemEditorAPI.FindItem(BASICItem.PrincipalKeys)); 
 	}
 
 	

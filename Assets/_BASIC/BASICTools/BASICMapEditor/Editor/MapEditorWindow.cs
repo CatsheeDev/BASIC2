@@ -24,6 +24,7 @@ public class MapEditorWindow : BASICEditorSingleton<MapEditorWindow>
         stateManager.RenderCurrentState();
         if (GUILayout.Button("Return to Menu"))
         {
+            MapEditorLogic.Instance.autoBuild = false; 
             stateManager.SetState(new MapEditor_State_Start()); 
         }
     }

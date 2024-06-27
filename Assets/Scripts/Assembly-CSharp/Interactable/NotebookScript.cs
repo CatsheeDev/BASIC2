@@ -3,18 +3,16 @@ using UnityEngine;
 
 
 public class NotebookScript : BASICInteractable
-{
-	
+{ 
 	private void Start()
 	{
-		
-		this.up = true;
+        this.up = true;
 	}
 
 	
 	private void Update()
 	{
-		if (this.gc.mode == "endless")
+        if (this.gc.mode == "endless")
 		{
 			if (this.respawnTime > 0f)
 			{
