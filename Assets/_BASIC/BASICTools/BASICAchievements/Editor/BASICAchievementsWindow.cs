@@ -18,7 +18,7 @@ public class BASICAchievementsWindow : BASICEditorSingleton<BASICAchievementsWin
 
     private void OnEnable()
     {
-        stateManager = new BASIC_UIStates(new ItemEditor_State_Main());
+        stateManager = new BASIC_UIStates(new BASICAchievementsWindow_Main());
     }
 
     private void OnGUI()
