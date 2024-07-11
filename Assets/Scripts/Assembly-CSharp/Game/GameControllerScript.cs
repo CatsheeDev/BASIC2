@@ -9,11 +9,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class GameControllerScript : Singleton<GameControllerScript>
 {
 	private GameObject itemHolder;
-
+	private bool UseAchievements; 
 	[HideInInspector] public List<GameObject> itemObjects = new(); 
 
 	private void Start()
@@ -52,13 +51,19 @@ public class GameControllerScript : Singleton<GameControllerScript>
 		this.failedNotebooks = settingsProfile.startingFailedNotebooks;
 
 		UpdateNotebookCount(); 
-        SetupItems(); 
+        SetupItems();
+
+		UseAchievements = achievementProfile != null; 
+		if (UseAchievements)
+		{
+			gameObject.AddComponent<AchievementController>(); 
+		}
     }
 
-	void SetupItems()
-	{
-		itemHolder = new GameObject("Items"); 
-		itemHolder.transform.parent = transform;
+    void SetupItems()
+    {
+        itemHolder = new GameObject("Items");
+        itemHolder.transform.parent = transform;
 
         ItemInfo[] itemData = itemProfile.items;
 
@@ -67,15 +72,16 @@ public class GameControllerScript : Singleton<GameControllerScript>
             string scriptName = item.Name;
             string fullScriptName = $"{scriptName}";
 
+            GameObject hold = new GameObject(scriptName);
+            hold.transform.parent = itemHolder.transform;
+            itemObjects.Add(hold);
+
             Type scriptType = Type.GetType(fullScriptName);
             if (scriptType != null)
             {
                 if (!this.gameObject.GetComponent(scriptType))
                 {
-					GameObject hold = new GameObject(scriptName);
-					hold.transform.parent = itemHolder.transform;
                     hold.AddComponent(scriptType);
-					itemObjects.Add(hold); 
                 }
             }
             else
@@ -85,7 +91,7 @@ public class GameControllerScript : Singleton<GameControllerScript>
         }
     }
 
-	private void Update()
+    private void Update()
 	{
 		if (!this.learningActive)
 		{
@@ -168,10 +174,6 @@ public class GameControllerScript : Singleton<GameControllerScript>
 			this.gameOverDelay -= Time.unscaledDeltaTime * 0.5f;
 			this.camera.farClipPlane = this.gameOverDelay * 400f; 
 			this.audioDevice.PlayOneShot(this.aud_buzz);
-			if (PlayerPrefs.GetInt("Rumble") == 1)
-			{
-
-			}
 			if (this.gameOverDelay <= 0f)
 			{
 				if (this.mode == "endless")
@@ -618,11 +620,10 @@ public class GameControllerScript : Singleton<GameControllerScript>
 
 	[Header("BASIC Essentials")]
 	public ItemProfile2 itemProfile;
-
 	public BASICDecompProfile settingsProfile;
+    public AchievementProfile achievementProfile;
 
-
-	[Header("Not BASIC")]
+    [Header("Not BASIC")]
 	public CursorControllerScript cursorController;
 
 	
@@ -811,7 +812,4 @@ public class GameControllerScript : Singleton<GameControllerScript>
 
 	
 	public AudioSource learnMusic;
-
-	
-	
 }

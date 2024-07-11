@@ -50,7 +50,7 @@ public class ItemEditor_State_Main : IUIState
 
         ItemEditorLogic.Instance._controllerScript.itemProfile = ItemEditorLogic.Instance._itemProfile;
 
-        if (GUILayout.Button(new GUIContent("Save", "Save your Items")))
+        if (GUILayout.Button(new GUIContent("Save", "Save your ")))
         {
             ItemEditor_EnumBuilder.Instance.beginBuild(ItemEditorLogic.Instance._itemProfile); 
         }
